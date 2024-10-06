@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-
+import axios from 'axios';
 const ProfilePage: React.FC = () => {
   const searchParams = useSearchParams();
   const account = searchParams.get('account');
@@ -13,6 +13,9 @@ const ProfilePage: React.FC = () => {
 
   const redeem = () => {
     setShowModal(true);
+    const clientAddress = account;
+    const claimAmt = balance?.replaceAll("VER", '').trim();
+    axios.post('http://localhost:9000/withdraw', { clientAddress, claimAmt })
     setTimeout(() => setShowModal(false), 2000); // Hide modal after 2 seconds
   };
 
